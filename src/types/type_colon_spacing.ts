@@ -1,3 +1,6 @@
+/**
+ * This plugin ensures consistent spacing before and after the colon for type definitions.
+ */
 const plugin : Deno.lint.Plugin = {
   name: "type-colon-spacing",
   rules: {
