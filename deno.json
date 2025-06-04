@@ -1,0 +1,39 @@
+{
+  "tasks": {
+    "index": "deno run --check -A ./src/index.ts",
+    "lint": "deno lint",
+    "test": "deno test -A --check --reload --doc --junit-path=\"./report.xml\""
+  },
+  "test": {
+    "include": [
+      "./src/**/*.test.ts"
+    ]
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "camelcase",
+        "default-param-last",
+        "eqeqeq",
+        "explicit-module-boundary-types",
+        "guard-for-in",
+        "no-eval",
+        "no-sparse-arrays",
+        "prefer-ascii"
+      ],
+      "exclude": [
+        "no-inferrable-types"
+      ]
+    },
+    "plugins": [
+      "./src/no_assignment_inside_if.ts"
+    ]
+  },
+  "fmt": {
+    "semiColons": true,
+    "singleQuote": true
+  }
+}

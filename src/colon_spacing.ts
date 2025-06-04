@@ -14,7 +14,7 @@ const plugin : Deno.lint.Plugin = {
                 node.key.range[1]-node.key.range[0],
                 -(node.value.range[1] - node.value.range[0])
               );
-              if (colonText != ': ') {
+              if (colonText !== ': ') {
                 const beforeColonText = nodeText.slice(
                   0,
                   node.key.range[1]-node.key.range[0]
@@ -34,7 +34,7 @@ const plugin : Deno.lint.Plugin = {
             }
           },
           TSPropertySignature(node) {
-            if ((node.typeAnnotation?.range[0] ?? node.key.range[1]) - node.key.range[1] != 1) {
+            if ((node.typeAnnotation?.range[0] ?? node.key.range[1]) - node.key.range[1] !== 1) {
               context.report({
                 node,
                 message: `Wrong spacing before colon.`,
@@ -51,7 +51,7 @@ const plugin : Deno.lint.Plugin = {
             if (node.typeAnnotation) {
               const spaceAfter = node.typeAnnotation.range[0] - (node.range[0] + node.name.length)
 
-              if (spaceAfter != 1) {
+              if (spaceAfter !== 1) {
                 context.report({
                   node,
                   message: `Wrong spacing before colon.`,
@@ -73,7 +73,7 @@ const plugin : Deno.lint.Plugin = {
             
             const spaceInFront = node.typeAnnotation.range[0] - (node.range[0] + 1)
             
-            if (spaceInFront != 1) {
+            if (spaceInFront !== 1) {
               context.report({
                 node,
                 message: `Wrong spacing after colon.`,
