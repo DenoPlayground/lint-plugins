@@ -105,7 +105,5 @@ Deno.test('colon-spacing plugin', async (test) => {
     assertEquals(beforeTypeDiagnostic.id, 'colon-spacing/before-type');
     assertEquals(beforeTypeDiagnostic.message, 'Wrong colon spacing. Expected 1 space before type.');
     assertEquals(beforeTypeDiagnostic.fix, [{range: [57, 57], text: ' '}]);
-    console.log(afterFunctionDiagnostic);
-    
   });
 });
