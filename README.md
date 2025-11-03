@@ -5,3 +5,15 @@
 
 ## Colon Spacing
 This plugin ensures consistent spacing before and after the colon for type definitions.
+
+```js
+{
+  ...
+  "lint": {
+    ...
+    "plugins": [
+      "jsr:@loat-dev/lint-plugins/colon_spacing"
+    ]
+  }
+}
+```
