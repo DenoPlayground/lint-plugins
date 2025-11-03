@@ -1,7 +1,7 @@
 /**
  * This plugin ensures consistent spacing before and after the colon for type definitions.
  */
-export default {
+const colonSpacing : Deno.lint.Plugin = {
   name: 'colon-spacing',
   rules: {
     'after-function': {
@@ -52,4 +52,6 @@ export default {
       }
     }
   }
-} satisfies Deno.lint.Plugin;
+};
+
+export default colonSpacing;
