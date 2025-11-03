@@ -33,10 +33,7 @@
       "exclude": [
         "no-inferrable-types"
       ]
-    },
-    "plugins": [
-      "./src/no_assignment_inside_if.ts"
-    ]
+    }
   },
   "fmt": {
     "semiColons": true,
