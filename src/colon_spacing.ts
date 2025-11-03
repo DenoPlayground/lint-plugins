@@ -5,10 +5,10 @@ export default {
   name: 'colon-spacing',
   rules: {
     'after-function': {
-      create(context): Deno.lint.LintVisitor {
+      create(context) : Deno.lint.LintVisitor {
         return {
-          TSTypeAnnotation(node): void {
-            if (node.parent.type === 'FunctionDeclaration') {
+          TSTypeAnnotation(node) : void {
+            if (['FunctionDeclaration', 'FunctionExpression'].includes(node.parent.type)) {
               const functionStart = node.parent.range[0];
               const sectionEnd = node.range[0];
               const index =
@@ -30,9 +30,9 @@ export default {
       }
     },
     'before-type': {
-      create(context): Deno.lint.LintVisitor {
+      create(context) : Deno.lint.LintVisitor {
         return {
-          TSTypeAnnotation(node): void {
+          TSTypeAnnotation(node) : void {
             if (node.parent.type === 'FunctionDeclaration') {
               const sectionStart = node.range[0] + 1;
               const sectionEnd = node.typeAnnotation.range[0];
