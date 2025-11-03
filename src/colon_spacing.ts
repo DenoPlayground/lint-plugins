@@ -33,7 +33,7 @@ export default {
       create(context) : Deno.lint.LintVisitor {
         return {
           TSTypeAnnotation(node) : void {
-            if (node.parent.type === 'FunctionDeclaration') {
+            if (['FunctionDeclaration', 'FunctionExpression'].includes(node.parent.type)) {
               const sectionStart = node.range[0] + 1;
               const sectionEnd = node.typeAnnotation.range[0];
 
