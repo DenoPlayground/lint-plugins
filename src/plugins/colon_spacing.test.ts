@@ -7,7 +7,7 @@ Deno.test('colon-spacing plugin', async (test) => {
       colonSpacing,
       'main.ts',
       `
-      export function Foo(arg1: string, arg2: number): string { 
+      export function Foo(): string { 
         return 'Hello World!';
       }
       `
@@ -19,7 +19,7 @@ Deno.test('colon-spacing plugin', async (test) => {
 
     assertEquals(diagnostic.id, 'colon-spacing/before-colon');
     assertEquals(diagnostic.message, 'Wrong colon spacing. Expected 1 space before colon.');
-    assertEquals(diagnostic.fix, [{range: [54, 54], text: ' '}]);
+    assertEquals(diagnostic.fix, [{range: [28, 28], text: ' '}]);
   });
 
   await test.step('before-colon rule, too many spaces', () => {
@@ -27,7 +27,7 @@ Deno.test('colon-spacing plugin', async (test) => {
       colonSpacing,
       'main.ts',
       `
-      export function Foo(arg1: string, arg2: number)  : string { 
+      export function Foo()  : string { 
         return 'Hello World!';
       }
       `
@@ -39,7 +39,7 @@ Deno.test('colon-spacing plugin', async (test) => {
 
     assertEquals(diagnostic.id, 'colon-spacing/before-colon');
     assertEquals(diagnostic.message, 'Wrong colon spacing. Expected 1 space before colon.');
-    assertEquals(diagnostic.fix, [{range: [54, 56], text: ' '}]);
+    assertEquals(diagnostic.fix, [{range: [28, 30], text: ' '}]);
   });
 
   await test.step('after-colon rule, no space', () => {
@@ -47,7 +47,7 @@ Deno.test('colon-spacing plugin', async (test) => {
       colonSpacing,
       'main.ts',
       `
-      export function Foo(prop1: string, prop2: number) :string {
+      export function Foo() :string {
         return 'Hello World!';
       }
       `
@@ -59,7 +59,7 @@ Deno.test('colon-spacing plugin', async (test) => {
 
     assertEquals(diagnostic.id, 'colon-spacing/after-colon');
     assertEquals(diagnostic.message, 'Wrong colon spacing. Expected 1 space after colon.');
-    assertEquals(diagnostic.fix, [{range: [58, 58], text: ' '}]);
+    assertEquals(diagnostic.fix, [{range: [30, 30], text: ' '}]);
   });
 
   await test.step('after-colon rule, too many spaces', () => {
@@ -67,7 +67,7 @@ Deno.test('colon-spacing plugin', async (test) => {
       colonSpacing,
       'main.ts',
       `
-      export function Foo(prop1: string, prop2: number) :  string {
+      export function Foo() :  string {
         return 'Hello World!';
       }
       `
@@ -79,7 +79,7 @@ Deno.test('colon-spacing plugin', async (test) => {
 
     assertEquals(diagnostic.id, 'colon-spacing/after-colon');
     assertEquals(diagnostic.message, 'Wrong colon spacing. Expected 1 space after colon.');
-    assertEquals(diagnostic.fix, [{range: [58, 60], text: ' '}]);
+    assertEquals(diagnostic.fix, [{range: [30, 32], text: ' '}]);
   });
 
   await test.step('before-colon/after-colon rule, no space, both', () => {
@@ -87,7 +87,7 @@ Deno.test('colon-spacing plugin', async (test) => {
       colonSpacing,
       'main.ts',
       `
-      export function Foo(prop1: string, prop2: number):string {
+      export function Foo():string {
         return 'Hello World!';
       }
       `
@@ -100,11 +100,11 @@ Deno.test('colon-spacing plugin', async (test) => {
 
     assertEquals(afterFunctionDiagnostic.id, 'colon-spacing/before-colon');
     assertEquals(afterFunctionDiagnostic.message, 'Wrong colon spacing. Expected 1 space before colon.');
-    assertEquals(afterFunctionDiagnostic.fix, [{range: [56, 56], text: ' '}]);
+    assertEquals(afterFunctionDiagnostic.fix, [{range: [28, 28], text: ' '}]);
 
     assertEquals(beforeTypeDiagnostic.id, 'colon-spacing/after-colon');
     assertEquals(beforeTypeDiagnostic.message, 'Wrong colon spacing. Expected 1 space after colon.');
-    assertEquals(beforeTypeDiagnostic.fix, [{range: [57, 57], text: ' '}]);
+    assertEquals(beforeTypeDiagnostic.fix, [{range: [29, 29], text: ' '}]);
   });
 
   await test.step('before-colon rule, no space', () => {
