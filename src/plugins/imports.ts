@@ -13,7 +13,7 @@ const imports : Deno.lint.Plugin = {
 
             if (node.specifiers.length > 0) {
               context.report({
-                message: `Wrong colon spacing. Expected 1 space before colon.`,
+                message: 'Wrong import spacing. Expected 1 space after { and 1 space before }.',
                 range: [sectionStart - 1, sectionEnd + 1],
                 // fix(fixer) : Deno.lint.Fix{
                 //   return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');

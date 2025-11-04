@@ -17,7 +17,7 @@ const colonSpacing : Deno.lint.Plugin = {
 
               if (index !== -1 && sectionEnd - sectionStart !== 1) {
                 context.report({
-                  message: `Wrong colon spacing. Expected 1 space before colon.`,
+                  message: 'Wrong colon spacing. Expected 1 space before colon.',
                   range: [sectionStart - 1, sectionEnd + 1],
                   fix(fixer) : Deno.lint.Fix{
                     return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
@@ -35,7 +35,7 @@ const colonSpacing : Deno.lint.Plugin = {
               
               if (index !== -1 && sectionEnd - sectionStart !== 0) {
                 context.report({
-                  message: `Wrong colon spacing. Expected no space before colon.`,
+                  message: 'Wrong colon spacing. Expected no space before colon.',
                   range: [sectionStart - 1, sectionEnd + 1],
                   fix(fixer) : Deno.lint.Fix{
                     return fixer.replaceTextRange([sectionStart, sectionEnd], '');
@@ -57,7 +57,7 @@ const colonSpacing : Deno.lint.Plugin = {
 
               if (sectionEnd - sectionStart !== 1) {
                 context.report({
-                  message: `Wrong colon spacing. Expected 1 space after colon.`,
+                  message: 'Wrong colon spacing. Expected 1 space after colon.',
                   range: [sectionStart - 1, sectionEnd + 1],
                   fix(fixer) : Deno.lint.Fix{
                     return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
@@ -75,7 +75,7 @@ const colonSpacing : Deno.lint.Plugin = {
               
               if (index !== -1) {
                 context.report({
-                  message: `Wrong colon spacing. Expected 1 space after colon.`,
+                  message: 'Wrong colon spacing. Expected 1 space after colon.',
                   range: [sectionStart - 1, sectionEnd + 1],
                   fix(fixer) : Deno.lint.Fix{
                     return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
