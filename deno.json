@@ -1,6 +1,6 @@
 {
   "name": "@loat-dev/lint-plugins",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "./LICENSE",
   "exports": {
     "./colon_spacing": "./src/plugins/colon_spacing.ts"
@@ -36,6 +36,9 @@
     ]
   },
   "lint": {
+    "plugins": [
+      "./src/plugins/colon_spacing.ts"
+    ],
     "rules": {
       "tags": [
         "recommended"
