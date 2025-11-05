@@ -17,3 +17,33 @@ This plugin ensures consistent spacing before and after the colon for type defin
   }
 }
 ```
+
+## Imports
+This plugin ensures consistent formatting for imports.
+
+```js
+{
+  ...
+  "lint": {
+    ...
+    "plugins": [
+      "jsr:@loat-dev/lint-plugins/imports"
+    ]
+  }
+}
+```
+
+## Arrays
+This plugin ensures consistent formatting for arrays.
+
+```js
+{
+  ...
+  "lint": {
+    ...
+    "plugins": [
+      "jsr:@loat-dev/lint-plugins/arrays"
+    ]
+  }
+}
+```

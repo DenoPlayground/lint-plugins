@@ -1,7 +1,7 @@
 /**
- * This plugin ensures consistent formatting for imports.
+ * This plugin ensures consistent formatting for arrays.
  */
-const imports : Deno.lint.Plugin = {
+const arrays : Deno.lint.Plugin = {
   name: 'arrays',
   rules: {
     'negative-index': {
@@ -32,4 +32,4 @@ const imports : Deno.lint.Plugin = {
   }
 };
 
-export default imports;
+export default arrays;
