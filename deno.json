@@ -1,10 +1,11 @@
 {
   "name": "@loat-dev/lint-plugins",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "./LICENSE",
   "exports": {
     "./colon_spacing": "./src/plugins/colon_spacing.ts",
-    "./imports": "./src/plugins/imports.ts"
+    "./imports": "./src/plugins/imports.ts",
+    "./arrays": "./src/plugins/arrays.ts"
   },
   "tasks": {
     "clear-dist": "rm -r ./dist/* || exit 0",
@@ -39,7 +40,8 @@
   "lint": {
     "plugins": [
       "./src/plugins/colon_spacing.ts",
-      "./src/plugins/imports.ts"
+      "./src/plugins/imports.ts",
+      "./src/plugins/arrays.ts"
     ],
     "rules": {
       "tags": [
