@@ -1,3 +1,5 @@
+import { rangePadding } from '../range_padding.ts';
+
 /**
  * This plugin ensures consistent spacing before and after the colon for type definitions.
  */
@@ -9,18 +11,23 @@ const colonSpacing : Deno.lint.Plugin = {
         return {
           TSTypeAnnotation(node) : void {
             if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier'].includes(node.parent.type)) {
-              const start = node.parent.range[0];
-              const sectionEnd = node.range[0];
-              const index =
-                context.sourceCode.getText(node.parent).substring(0, sectionEnd - start).search(/(?:\)|.) *$/) + 1;
-              const sectionStart = start + index;
 
-              if (index !== -1 && sectionEnd - sectionStart !== 1) {
+              const index = context.sourceCode.getText(node.parent).substring(
+                0,
+                node.range[0] - node.parent.range[0]
+              ).search(/(?:\)|.) *$/) + 1;
+              
+              const section : Deno.lint.Range = [
+                node.parent.range[0] + index,
+                node.range[0]
+              ]
+
+              if (index !== -1 && section[1] - section[0] !== 1) {
                 context.report({
                   message: 'Wrong colon spacing. Expected 1 space before colon.',
-                  range: [sectionStart - 1, sectionEnd + 1],
-                  fix(fixer) : Deno.lint.Fix{
-                    return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
+                  range: rangePadding(section),
+                  fix(fixer) : Deno.lint.Fix {
+                    return fixer.replaceTextRange(section, ' ');
                   }
                 });
               }
@@ -28,17 +35,23 @@ const colonSpacing : Deno.lint.Plugin = {
           },
           Property(node) : void {
             if (['ObjectExpression'].includes(node.parent.type)) {
-              const start = node.range[0];
-              const sectionStart = node.key.range[1]
-              const index = context.sourceCode.getText(node).substring(sectionStart - start, node.value.range[0] - start).search(/\:/)
-              const sectionEnd = sectionStart + index
+
+              const index = context.sourceCode.getText(node).substring(
+                node.key.range[1] - node.range[0],
+                node.value.range[0] - node.range[0]
+              ).search(/\:/);
+
+              const section : Deno.lint.Range = [
+                node.key.range[1],
+                node.key.range[1] + index
+              ];
               
-              if (index !== -1 && sectionEnd - sectionStart !== 0) {
+              if (index !== -1 && section[1] - section[0] !== 0) {
                 context.report({
                   message: 'Wrong colon spacing. Expected no space before colon.',
-                  range: [sectionStart - 1, sectionEnd + 1],
-                  fix(fixer) : Deno.lint.Fix{
-                    return fixer.replaceTextRange([sectionStart, sectionEnd], '');
+                  range: rangePadding(section),
+                  fix(fixer) : Deno.lint.Fix {
+                    return fixer.replaceTextRange(section, '');
                   }
                 });
               }
@@ -52,15 +65,17 @@ const colonSpacing : Deno.lint.Plugin = {
         return {
           TSTypeAnnotation(node) : void {
             if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier'].includes(node.parent.type)) {
-              const sectionStart = node.range[0] + 1;
-              const sectionEnd = node.typeAnnotation.range[0];
+              const section : Deno.lint.Range = [
+                node.range[0] + 1,
+                node.typeAnnotation.range[0]
+              ]
 
-              if (sectionEnd - sectionStart !== 1) {
+              if (section[1] - section[0] !== 1) {
                 context.report({
                   message: 'Wrong colon spacing. Expected 1 space after colon.',
-                  range: [sectionStart - 1, sectionEnd + 1],
+                  range: rangePadding(section),
                   fix(fixer) : Deno.lint.Fix{
-                    return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
+                    return fixer.replaceTextRange(section, ' ');
                   }
                 });
               }
@@ -68,17 +83,22 @@ const colonSpacing : Deno.lint.Plugin = {
           },
           Property(node) : void {
             if (['ObjectExpression'].includes(node.parent.type)) {
-              const start = node.range[0];
-              const index = context.sourceCode.getText(node).substring(node.key.range[1] - start, node.value.range[0] - start).search(/\:(?:  +|)$/)
-              const sectionStart = node.key.range[1] + index + 1;
-              const sectionEnd = node.value.range[0]
+              const index = context.sourceCode.getText(node).substring(
+                node.key.range[1] - node.range[0],
+                node.value.range[0] - node.range[0]
+              ).search(/\:(?:  +|)$/);
+
+              const section : Deno.lint.Range = [
+                node.key.range[1] + index + 1,
+                node.value.range[0]
+              ]
               
               if (index !== -1) {
                 context.report({
                   message: 'Wrong colon spacing. Expected 1 space after colon.',
-                  range: [sectionStart - 1, sectionEnd + 1],
+                  range: rangePadding(section),
                   fix(fixer) : Deno.lint.Fix{
-                    return fixer.replaceTextRange([sectionStart, sectionEnd], ' ');
+                    return fixer.replaceTextRange(section, ' ');
                   }
                 });
               }
