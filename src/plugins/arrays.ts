@@ -20,7 +20,7 @@ const arrays : Deno.lint.Plugin = {
 
                 context.report({
                   message: 'Possibly wrong expression. You can not index an array with a negative number.',
-                  hint: `Maybe use '${identifier}[${identifier}.length - ${literal}]' instead?`,
+                  hint: `Maybe use \`${identifier}[${identifier}.length - ${literal}]\` instead?`,
                   node: node.property
                 });
               }
