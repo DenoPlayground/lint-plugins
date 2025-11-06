@@ -105,30 +105,6 @@ const colonSpacing : Deno.lint.Plugin = {
                 });
               }
             }
-          },
-          Property(node) : void {
-            if (['ObjectExpression'].includes(node.parent.type)) {
-
-              const index = context.sourceCode.getText(node).substring(
-                node.key.range[1] - node.range[0],
-                node.value.range[0] - node.range[0]
-              ).search(/\:/);
-
-              const section : Deno.lint.Range = [
-                node.key.range[1],
-                node.key.range[1] + index
-              ];
-              
-              if (index !== -1 && section[1] - section[0] !== 0) {
-                context.report({
-                  message: 'Wrong colon spacing. Expected no space before colon.',
-                  range: rangePadding(section),
-                  fix(fixer) : Deno.lint.Fix {
-                    return fixer.replaceTextRange(section, '');
-                  }
-                });
-              }
-            }
           }
         };
       }
