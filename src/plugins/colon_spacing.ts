@@ -12,6 +12,42 @@ const colonSpacing : Deno.lint.Plugin = {
     'before-colon': {
       create(context) : Deno.lint.LintVisitor {
         return {
+          FunctionDeclaration(node) : void {
+            if (node.returnType && node.id) {
+              // Section | from "<id>| (<...params>) |:<type>"
+              const section : Deno.lint.Range = [node.id.range[1], node.returnType.range[0]]
+              
+              if (node.params.length > 0) {
+                const last = node.params[node.params.length - 1]
+
+                if (last.type === 'Identifier' && last.typeAnnotation) {
+                  // Section | from "<id>(<...params>)|  |:<type>"
+                  section[0] = last.typeAnnotation.range[1] + 1;
+                }
+              } else {
+                // Text _ from "<id>__(<...params>)____:<type>"
+                const text = context.sourceCode.getText(node).substring(
+                  section[0] - node.range[0],
+                  section[1] - node.range[0]
+                )
+
+                // Section | from "<id>(<...params>)|  |:<type>"
+                const index = text.search(/\)/) + 1;
+
+                section[0] += index;
+              }
+
+              if (rangeDistance(section) !== spaceBeforeColon) {
+                context.report({
+                  message: `Wrong colon spacing. Expected ${spaceBeforeColon} space before colon.`,
+                  range: rangePadding(section),
+                  fix(fixer) : Deno.lint.Fix {
+                    return fixer.replaceTextRange(section, ' ');
+                  }
+                });
+              }
+            }
+          },
           TSPropertySignature(node) : void {
             if (node.typeAnnotation) {
               // Text _ from "<name>___?__:<type>"

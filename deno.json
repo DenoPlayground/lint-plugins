@@ -1,6 +1,6 @@
 {
   "name": "@loat-dev/lint-plugins",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "license": "./LICENSE",
   "exports": {
     "./colon_spacing": "./src/plugins/colon_spacing.ts",
