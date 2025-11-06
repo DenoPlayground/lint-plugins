@@ -1,3 +1,4 @@
+import { rangeDistance } from '../range_distance.ts';
 import { rangePadding } from '../range_padding.ts';
 
 const spaceBeforeColon = 1;
@@ -11,8 +12,38 @@ const colonSpacing : Deno.lint.Plugin = {
     'before-colon': {
       create(context) : Deno.lint.LintVisitor {
         return {
+          TSPropertySignature(node) : void {
+            if (node.typeAnnotation) {
+              // Text _ from "<name>___?__:<type>"
+              const section : Deno.lint.Range = [node.key.range[1], node.typeAnnotation.range[0]]
+              
+              // Text _ from "<name>___?__:<type>"
+              const text = context.sourceCode.getText(node).substring(
+                node.key.range[1] - node.range[0],
+                node.typeAnnotation.range[0] - node.range[0]
+              )
+
+              if (node.optional) {
+                // Index of ? from "<name>?__:<type>"
+                const textAfterOptionalIndex = text.search(/\?/) + 1
+
+                section[0] += textAfterOptionalIndex
+              }
+              
+              if (rangeDistance(section) !== spaceBeforeColon) {
+                context.report({
+                  message: `Wrong colon spacing. Expected ${spaceBeforeColon} space before colon.`,
+                  range: rangePadding(section),
+                  fix(fixer) : Deno.lint.Fix {
+                    return fixer.replaceTextRange(section, ' ');
+                  }
+                });
+              }
+            }
+          },
           Identifier(node) : void {
             if (node.typeAnnotation) {
+              // Text _ from "<name>___?__:<type>"
               const section : Deno.lint.Range = [node.range[1], node.typeAnnotation.range[0]]
 
               // Text _ from "<name>___?__:<type>"
@@ -28,7 +59,7 @@ const colonSpacing : Deno.lint.Plugin = {
                 section[0] += textAfterOptionalIndex
               }
 
-              if (section[1] - section[0] !== spaceBeforeColon) {
+              if (rangeDistance(section) !== spaceBeforeColon) {
                 context.report({
                   message: `Wrong colon spacing. Expected ${spaceBeforeColon} space before colon.`,
                   range: rangePadding(section),
