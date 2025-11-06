@@ -10,7 +10,7 @@ const colonSpacing : Deno.lint.Plugin = {
       create(context) : Deno.lint.LintVisitor {
         return {
           TSTypeAnnotation(node) : void {
-            if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier'].includes(node.parent.type)) {
+            if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier', 'PropertyDefinition'].includes(node.parent.type)) {
 
               const index = context.sourceCode.getText(node.parent).substring(
                 0,
@@ -64,7 +64,7 @@ const colonSpacing : Deno.lint.Plugin = {
       create(context) : Deno.lint.LintVisitor {
         return {
           TSTypeAnnotation(node) : void {
-            if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier'].includes(node.parent.type)) {
+            if (['FunctionDeclaration', 'FunctionExpression', 'TSPropertySignature', 'Identifier', 'PropertyDefinition'].includes(node.parent.type)) {
               const section : Deno.lint.Range = [
                 node.range[0] + 1,
                 node.typeAnnotation.range[0]
