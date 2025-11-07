@@ -26,11 +26,11 @@ const colonSpacing : Deno.lint.Plugin = {
                 const last = node.params[node.params.length - 1]
 
                 if (last.type === 'Identifier') {
-                  // Section | from "<id>(<...params>|)  |:<type>"
+                  // Section | from "<id>(<...params>| )  |:<type>"
                   section[0] = last.range[1] + 1;
 
                   if (last.typeAnnotation) {
-                    // Section | from "<id>(<...params>:<type>|)  |:<type>"
+                    // Section | from "<id>(<...params>:<type>| )  |:<type>"
                     section[0] = last.typeAnnotation.range[1] + 1;
                   }
                 }
@@ -42,7 +42,7 @@ const colonSpacing : Deno.lint.Plugin = {
                 section[1] - node.range[0]
               )
 
-              // Section | from "<id>(<...params>)|  |:<type>"
+              // Section | from "<id>(<...params> )|  |:<type>"
               const index = text.search(/\)/) + 1;
 
               section[0] += index;
