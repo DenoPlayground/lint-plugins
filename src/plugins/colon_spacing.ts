@@ -123,38 +123,39 @@ const colonSpacing : Deno.lint.Plugin = {
               }
             }
           },
-          Identifier(node) : void {
-            if (node.typeAnnotation) {
-              // Text _ from "_<name>___?__:<type>"
-              const section : Deno.lint.Range = [node.range[0], node.typeAnnotation.range[0]]
+          // Currently broken due to a Bug: https://github.com/denoland/deno/issues/31249
+          // Identifier(node) : void {
+          //   if (node.typeAnnotation) {
+          //     // Text _ from "_<name>___?__:<type>"
+          //     const section : Deno.lint.Range = [node.range[0], node.typeAnnotation.range[0]]
 
-              // Text _ from "_<name>___?__:<type>"
-              const text = context.sourceCode.getText(node.parent).substring(
-                node.range[0] - node.parent.range[0],
-                node.typeAnnotation.range[0] - node.parent.range[0] + 1
-              )
+          //     // Text _ from "_<name>___?__:<type>"
+          //     const text = context.sourceCode.getText(node.parent).substring(
+          //       node.range[0] - node.parent.range[0],
+          //       node.typeAnnotation.range[0] - node.parent.range[0] + 1
+          //     )
 
-              // Section | from "<name>|  |:<type>"
-              section[0] += text.search(/ *:/);
+          //     // Section | from "<name>|  |:<type>"
+          //     section[0] += text.search(/ *:/);
               
-              if (node.optional) {
-                // Index of ? from "<name>?__:<type>"
-                const textAfterOptionalIndex = text.search(/\?/) + 1
+          //     if (node.optional) {
+          //       // Index of ? from "<name>?__:<type>"
+          //       const textAfterOptionalIndex = text.search(/\?/) + 1
 
-                section[0] += textAfterOptionalIndex
-              }
+          //       section[0] += textAfterOptionalIndex
+          //     }
 
-              if (rangeDistance(section) !== spaceBeforeColon) {
-                context.report({
-                  message: `Wrong colon spacing. Expected ${spaceBeforeColon} space before colon.`,
-                  range: rangePadding(section),
-                  fix(fixer) : Deno.lint.Fix {
-                    return fixer.replaceTextRange(section, ' ');
-                  }
-                });
-              }
-            }
-          }
+          //     if (rangeDistance(section) !== spaceBeforeColon) {
+          //       context.report({
+          //         message: `Wrong colon spacing. Expected ${spaceBeforeColon} space before colon.`,
+          //         range: rangePadding(section),
+          //         fix(fixer) : Deno.lint.Fix {
+          //           return fixer.replaceTextRange(section, ' ');
+          //         }
+          //       });
+          //     }
+          //   }
+          // }
         };
       }
     },
