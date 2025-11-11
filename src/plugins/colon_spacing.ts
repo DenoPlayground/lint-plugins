@@ -124,7 +124,7 @@ const colonSpacing : Deno.lint.Plugin = {
             }
           },
           Identifier(node) : void {
-            if (node.typeAnnotation) {
+            if (node.typeAnnotation && node.parent.type !== 'TSIndexSignature') {
               // Text _ from "<name>___?__:<type>"
               const section : Deno.lint.Range = [node.range[1], node.typeAnnotation.range[0]]
 
