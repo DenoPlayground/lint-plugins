@@ -124,15 +124,18 @@ const colonSpacing : Deno.lint.Plugin = {
             }
           },
           Identifier(node) : void {
-            if (node.typeAnnotation && node.parent.type !== 'TSIndexSignature') {
-              // Text _ from "<name>___?__:<type>"
-              const section : Deno.lint.Range = [node.range[1], node.typeAnnotation.range[0]]
+            if (node.typeAnnotation) {
+              // Text _ from "_<name>___?__:<type>"
+              const section : Deno.lint.Range = [node.range[0], node.typeAnnotation.range[0]]
 
-              // Text _ from "<name>___?__:<type>"
+              // Text _ from "_<name>___?__:<type>"
               const text = context.sourceCode.getText(node.parent).substring(
-                node.range[1] - node.parent.range[0],
-                node.typeAnnotation.range[0] - node.parent.range[0]
+                node.range[0] - node.parent.range[0],
+                node.typeAnnotation.range[0] - node.parent.range[0] + 1
               )
+
+              // Section | from "<name>|  |:<type>"
+              section[0] += text.search(/ *:/);
               
               if (node.optional) {
                 // Index of ? from "<name>?__:<type>"
